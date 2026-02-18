@@ -1,0 +1,23 @@
+name: build
+on: push
+
+jobs:
+  make-exe:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: install
+        run: pip install pyinstaller
+        
+      - name: build
+        run: pyinstaller -F -c -n "PolytoriaLauncher" launcher.py
+        
+      - name: upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: launcher
+          path: dist/PolytoriaLauncher.exe
